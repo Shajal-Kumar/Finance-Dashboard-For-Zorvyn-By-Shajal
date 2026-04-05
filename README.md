@@ -16,16 +16,40 @@ If I had more time, the next things I'd build are multi-tenancy, an audit log, a
 
 ## Table of Contents
 
-1. [Architecture Overview](#architecture-overview)
-2. [Security Design](#security-design)
-3. [Quick Start](#quick-start)
-4. [Project Structure](#project-structure)
-5. [API Reference](#api-reference)
-6. [Role-Based Access Control](#role-based-access-control)
-7. [Running Tests](#running-tests)
-8. [Production Deployment](#production-deployment)
-9. [Design Decisions & Trade-offs](#design-decisions--trade-offs)
-10. [Assumptions](#assumptions)
+1. [Tech Stack](#tech-stack)
+2. [Architecture Overview](#architecture-overview)
+3. [Security Design](#security-design)
+4. [Quick Start](#quick-start)
+5. [Project Structure](#project-structure)
+6. [API Reference](#api-reference)
+7. [Role-Based Access Control](#role-based-access-control)
+8. [Running Tests](#running-tests)
+9. [Production Deployment](#production-deployment)
+10. [Design Decisions & Trade-offs](#design-decisions--trade-offs)
+11. [Assumptions](#assumptions)
+
+---
+
+## Tech Stack
+
+| Layer | Technology | Version | Purpose |
+|-------|-----------|---------|---------|
+| **Framework** | FastAPI | 0.111 | Async web framework, auto-generates OpenAPI/Swagger docs |
+| **Runtime** | Python | 3.11+ | Modern type hints, `StrEnum`, `X \| None` syntax |
+| **ASGI Server** | Uvicorn | 0.30 | Dev: single worker + `--reload`. Prod: multi-worker |
+| **ORM** | SQLAlchemy | 2.0 async | Type-safe queries, connection pooling, `Mapped[]` columns |
+| **DB (dev)** | SQLite + aiosqlite | — | Zero setup, file-based, swappable |
+| **DB (prod)** | PostgreSQL + asyncpg | — | One env var change from SQLite |
+| **Migrations** | Alembic | 1.13 | Schema versioning, async-aware `env.py` |
+| **Validation** | Pydantic v2 | 2.7 | Request validation, response serialisation, settings |
+| **Auth** | python-jose | 3.3 | JWT creation and verification (HS256) |
+| **Passwords** | passlib + bcrypt | 1.7 | Hashing with tunable work factor |
+| **Rate limiting** | slowapi | 0.1.9 | Per-IP limits; swap `memory://` → `redis://` for multi-node |
+| **Logging** | structlog | 24.2 | JSON in production, coloured console in dev |
+| **Testing** | pytest + pytest-asyncio | 8.2 / 0.23 | Async test runner |
+| **Test client** | httpx | 0.27 | Async HTTP client for integration tests |
+
+The stack is typed end-to-end: env vars (`pydantic-settings`), request bodies (Pydantic schemas), ORM models (SQLAlchemy `Mapped[]`), and route return types (FastAPI response models). A type error at any layer surfaces in your editor or at startup — not in production.
 
 ---
 
