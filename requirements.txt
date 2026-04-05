@@ -6,7 +6,8 @@ python-multipart==0.0.9          # form data support
 # ── Database ─────────────────────────────────────────────────────────────────────
 sqlalchemy==2.0.30
 alembic==1.13.1
-aiosqlite==0.20.0                # async SQLite driver (swap for asyncpg in prod)
+aiosqlite==0.20.0                # async SQLite driver (dev/test)
+asyncpg==0.29.0                  # async PostgreSQL driver (production)
 # asyncpg==0.29.0                # uncomment for PostgreSQL
 
 # ── Auth & Security ───────────────────────────────────────────────────────────────
