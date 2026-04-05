@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: finance-dashboard-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: APP_ENVIRONMENT
+        value: development
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: BOOTSTRAP_ADMIN_EMAIL
+        value: admin@finance.local
+      - key: BOOTSTRAP_ADMIN_PASSWORD
+        value: ChangeMe123!
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./data/finance.db
+      - key: PYTHON_VERSION
+        value: 3.12.3

@@ -15,7 +15,7 @@ passlib[bcrypt]==1.7.4            # password hashing
 cryptography==42.0.8
 
 # ── Validation ────────────────────────────────────────────────────────────────────
-pydantic==2.7.1
+pydantic==2.7.4
 pydantic-settings==2.3.0
 email-validator==2.1.1
 
