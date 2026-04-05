@@ -99,7 +99,9 @@ class Settings(BaseSettings):
     # Content-Security-Policy – tighten per deployment
     CSP_POLICY: str = (
         "default-src 'self'; "
-        "script-src 'self'; "
+        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+        "img-src 'self' data: https://fastapi.tiangolo.com; "
         "object-src 'none'; "
         "frame-ancestors 'none';"
     )

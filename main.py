@@ -138,6 +138,7 @@ def create_app() -> FastAPI:
         docs_url="/docs"      if settings.APP_ENVIRONMENT != "production" else None,
         redoc_url="/redoc"    if settings.APP_ENVIRONMENT != "production" else None,
         openapi_url="/openapi.json" if settings.APP_ENVIRONMENT != "production" else None,
+        swagger_ui_parameters={"syntaxHighlight": False},
         lifespan=lifespan,
     )
 
